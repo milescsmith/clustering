@@ -1,16 +1,16 @@
 # type: ignore[attr-defined]
 
+from typing import Optional
+
 import random
 from enum import Enum
-from typing import Optional
 from pathlib import Path
-import typer
-import pandas as pd
-import numpy as np
 
+import numpy as np
+import pandas as pd
+import typer
 from clustering import __version__
 from clustering.clustering import label_clusters
-
 
 app = typer.Typer(
     name="clustering",
@@ -28,15 +28,26 @@ def version_callback(value: bool):
         raise typer.Exit()
 
 
-@app.command(name="", context_settings={"allow_extra_args": True, "ignore_unknown_options": True})
+@app.command(
+    name="",
+    context_settings={"allow_extra_args": True, "ignore_unknown_options": True},
+)
 def main(
-    input: str = typer.Argument(..., help="Name of the input data matrix, items in rows and observations in columns."),
+    input: str = typer.Argument(
+        ...,
+        help="Name of the input data matrix, items in rows and observations in columns.",
+    ),
     output: str = typer.Argument(..., help="Name to use for output file."),
-    resolution: float = typer.Option(1.0, help="Resolution at which to cluster."),
-    n_neighbors: int = typer.Option(30, help="Minimum number of neighbors required for a cluster"),
+    resolution: float = typer.Option(
+        1.0, help="Resolution at which to cluster."
+    ),
+    n_neighbors: int = typer.Option(
+        30, help="Minimum number of neighbors required for a cluster"
+    ),
     version: bool = typer.Option(
         None,
-        "-v", "--version",
+        "-v",
+        "--version",
         callback=version_callback,
         is_eager=True,
         help="Prints the version of the clustering package.",
@@ -48,11 +59,20 @@ def main(
         raise FileNotFoundError
     else:
         df = pd.read_csv(input_df)
-    
-    output_array = label_clusters(data_df=df, resolution=resolution, n_neighbors=n_neighbors,)
 
+    output_array = label_clusters(
+        data_df=df,
+        resolution=resolution,
+        n_neighbors=n_neighbors,
+    )
 
-    np.savetxt(fname=Path(output), X=output_array.astype(int), fmt="%d", delimiter=",",)
+    np.savetxt(
+        fname=Path(output),
+        X=output_array.astype(int),
+        fmt="%d",
+        delimiter=",",
+    )
+
 
 if __name__ == "main":
     typer.run(app)
