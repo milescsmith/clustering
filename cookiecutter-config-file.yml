@@ -1,0 +1,10 @@
+# This file contains values from Cookiecutter
+
+default_context:
+  project_name: "clustering"
+  project_description: "CLI to apply Leiden clustering to an array of values"
+  organization: "clustering"
+  license: "BSD-3"
+  version: "0.1.0"
+  github_name: "clustering"
+  email: "miles-smith@omrf.org"
